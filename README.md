@@ -15,7 +15,7 @@ Save streaming links from any device and access them from any other device. Open
 - **Offline Support** — Local cache with background sync
 - **PWA** — Installable as a Progressive Web App
 - **Dark UI** — Modern dark theme with smooth animations
-- **Android TV** — Remote-friendly UI with keyboard navigation
+- **Android TV** — Remote friendly UI with keyboard navigation
 - **Privacy** — No tracking, no ads, no cookies
 
 ## Setup
