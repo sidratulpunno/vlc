@@ -110,7 +110,4 @@ vlc-cloud-launcher/
 - **Empty stream list** — Check that the Sheet ID is correct and headers match exactly
 - **Offline mode** — Streams are cached; they will sync when connectivity returns
 
-## License
 
-MIT
-"# vlc" 
