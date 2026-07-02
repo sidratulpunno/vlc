@@ -98,9 +98,9 @@ vlc-cloud-launcher/
   README.md           This file
 ```
 
-## Screenshots
+<!-- ## Screenshots
 
-*[Screenshot placeholders — add your own here]*
+*[Screenshot placeholders — add your own here]* -->
 
 ## Troubleshooting
 
