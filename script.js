@@ -18,7 +18,7 @@
   const CACHE_KEY = CONFIG.CACHE_KEY || 'vlc_cloud_launcher_streams';
   const CATEGORY_COLORS = Object.assign({
     Movies: '#E53935', Sports: '#1E88E5', Anime: '#8E24AA',
-    TV: '#FB8C00', Music: '#43A047', Kids: '#00ACC1',
+    Series: '#7E57C2', TV: '#FB8C00', Music: '#43A047', Kids: '#00ACC1',
     Live: '#F4511E', Other: '#546E7A',
   }, CONFIG.CATEGORY_COLORS || {});
 
@@ -684,7 +684,7 @@
     el.editName.value = stream.Name || '';
     el.editCategory.value = stream.Category || 'Other';
 
-    const categories = ['Movies', 'Sports', 'Anime', 'TV', 'Music', 'Kids', 'Live', 'Other'];
+    const categories = ['Movies', 'Sports', 'Anime', 'Series', 'TV', 'Music', 'Kids', 'Live', 'Other'];
     el.editCategory.innerHTML = categories.map(c =>
       `<option value="${c}" ${c === stream.Category ? 'selected' : ''}>${c}</option>`
     ).join('');
