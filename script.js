@@ -456,13 +456,20 @@
       const host = parsed.host;
       const path = parsed.pathname + parsed.search + parsed.hash;
 
+      const encodedUrl = encodeURIComponent(url);
       const intentUri = `intent://${host}${path}#Intent;scheme=${scheme};package=org.videolan.vlc;end`;
-      const fallbackUri = `vlc://${url}`;
+      const intentUriFull = `intent://${encodedUrl}#Intent;package=org.videolan.vlc;end`;
+      const fallbackUri = `vlc://${encodedUrl}`;
 
       const isAndroid = /android/i.test(navigator.userAgent);
+      const isAndroidTV = isAndroid && /tv|googletv|androidtv|AFT/i.test(navigator.userAgent);
 
       if (isAndroid) {
-        window.location.href = intentUri;
+        if (isAndroidTV) {
+          window.location.href = intentUriFull;
+        } else {
+          window.location.href = intentUri;
+        }
         setTimeout(() => {
           window.location.href = fallbackUri;
         }, 500);
