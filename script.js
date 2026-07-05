@@ -624,8 +624,8 @@
   function createStreamCard(stream) {
     const catColor = getCategoryColor(stream.Category);
     const favIcon = stream.Favorite
-      ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="#FFB74D" stroke="#FFB74D" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>'
-      : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
+      ? '<svg class="fav-icon" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>'
+      : '<svg class="fav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>';
 
     const safeUrl = encodeURIComponent(stream.URL || '');
     const safeName = encodeURIComponent(stream.Name || 'Stream');
@@ -633,43 +633,38 @@
 
     return `
       <div class="stream-card ${stream.Favorite ? 'favorite' : ''}" role="listitem" data-id="${escapeHtml(stream.ID)}">
-        <div class="stream-card-header">
-          <div class="stream-card-body" style="flex:1;min-width:0">
+        <div class="stream-card-main">
+          <div class="stream-card-info">
             <div class="stream-card-name">${escapeHtml(stream.Name || 'Unnamed Stream')}</div>
             <div class="stream-card-meta">
-              <span class="category-badge" style="background:${catColor}">${escapeHtml(stream.Category || 'Other')}</span>
-              <span class="stream-card-date">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                ${formatDate(stream.CreatedAt)}
-              </span>
+              <span class="category-dot" style="background:${catColor}"></span>
+              <span class="category-label">${escapeHtml(stream.Category || 'Other')}</span>
+              <span class="stream-card-date">· ${formatDate(stream.CreatedAt)}</span>
             </div>
-
+            <div class="stream-url" title="${escapeHtml(stream.URL)}">${escapeHtml(stream.URL)}</div>
           </div>
-        </div>
-        <div class="stream-card-footer">
-          <button class="btn-open-vlc" data-action="open" data-url="${safeUrl}" aria-label="Open in VLC">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            Open in VLC
-          </button>
           <div class="stream-card-actions">
-            <button class="btn btn-secondary btn-xs" data-action="copy" data-url="${safeUrl}" aria-label="Copy URL" title="Copy URL">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-            </button>
-            <button class="btn btn-secondary btn-xs" data-action="edit" data-id="${safeId}" aria-label="Edit stream" title="Edit">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-            </button>
             <button class="btn btn-secondary btn-xs" data-action="favorite" data-id="${safeId}" aria-label="${stream.Favorite ? 'Remove from favorites' : 'Add to favorites'}" title="${stream.Favorite ? 'Unfavorite' : 'Favorite'}">
               ${favIcon}
             </button>
-            <button class="btn btn-secondary btn-xs" data-action="share" data-name="${safeName}" data-url="${safeUrl}" aria-label="Share" title="Share">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            <button class="btn btn-secondary btn-xs" data-action="copy" data-url="${safeUrl}" aria-label="Copy URL" title="Copy URL">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             </button>
-
-            <button class="btn btn-danger btn-xs" data-action="delete" data-id="${safeId}" aria-label="Delete stream" title="Delete">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            <button class="btn btn-secondary btn-xs" data-action="edit" data-id="${safeId}" aria-label="Edit stream" title="Edit">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            </button>
+            <button class="btn btn-secondary btn-xs" data-action="share" data-name="${safeName}" data-url="${safeUrl}" aria-label="Share" title="Share">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            </button>
+            <button class="btn btn-secondary btn-xs btn-danger" data-action="delete" data-id="${safeId}" aria-label="Delete stream" title="Delete">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
             </button>
           </div>
         </div>
+        <button class="stream-card-play" data-action="open" data-url="${safeUrl}" aria-label="Open in VLC">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          Play in VLC
+        </button>
       </div>
     `;
   }
