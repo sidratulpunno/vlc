@@ -451,22 +451,16 @@
     }
 
     try {
-      const parsed = new URL(url);
-      const scheme = parsed.protocol.replace(':', '');
-      const host = parsed.host;
-      const path = parsed.pathname + parsed.search + parsed.hash;
-
-      const encodedUrl = encodeURIComponent(url);
-      const intentUri = `intent://${host}${path}#Intent;scheme=${scheme};package=org.videolan.vlc;end`;
-      const intentUriFull = `intent://${encodedUrl}#Intent;package=org.videolan.vlc;end`;
-      const fallbackUri = `vlc://${encodedUrl}`;
-
       const isAndroid = /android/i.test(navigator.userAgent);
       const isAndroidTV = isAndroid && /tv|googletv|androidtv|AFT/i.test(navigator.userAgent);
 
       if (isAndroid) {
+        const encodedUrl = encodeURIComponent(url);
+        const intentUri = `intent://${encodedUrl}#Intent;action=android.intent.action.VIEW;package=org.videolan.vlc;type=video/*;end`;
+        const fallbackUri = `vlc://${url}`;
+
         if (isAndroidTV) {
-          window.location.href = intentUriFull;
+          window.location.href = `intent://${encodedUrl}#Intent;package=org.videolan.vlc;end`;
         } else {
           window.location.href = intentUri;
         }
