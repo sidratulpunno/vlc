@@ -455,18 +455,13 @@
       const isAndroidTV = isAndroid && /tv|googletv|androidtv|AFT/i.test(navigator.userAgent);
 
       if (isAndroid) {
-        const mimeType = getMimeType(url);
-        const intentUri = `intent:${url}#Intent;type=${mimeType};end`;
-        const fallbackUri = `vlc://${url}`;
+        const encoded = encodeURIComponent(url);
+        const intentUrl = isAndroidTV
+          ? `intent:${url}#Intent;package=org.videolan.vlc;end`
+          : `intent:${url}#Intent;type=video/mp4;end`;
 
-        if (isAndroidTV) {
-          window.location.href = `intent:${url}#Intent;package=org.videolan.vlc;end`;
-        } else {
-          window.location.href = intentUri;
-        }
-        setTimeout(() => {
-          window.location.href = fallbackUri;
-        }, 500);
+        window.location.href = intentUrl;
+
         setTimeout(() => {
           showToast(
             'Unable to launch VLC. Make sure VLC for Android is installed.',
@@ -483,29 +478,7 @@
   }
 
   function getMimeType(url) {
-    try {
-      const parsed = new URL(url);
-      const pathname = parsed.pathname.toLowerCase();
-      
-      if (pathname.endsWith('.m3u8') || pathname.includes('.m3u8') || pathname.endsWith('/m3u8') || pathname.includes('/m3u8')) return 'application/vnd.apple.mpegurl';
-      if (pathname.endsWith('.m3u') || pathname.includes('.m3u')) return 'audio/x-mpegurl';
-      if (pathname.endsWith('.mkv')) return 'video/x-matroska';
-      if (pathname.endsWith('.mp4') || pathname.endsWith('.m4v')) return 'video/mp4';
-      if (pathname.endsWith('.webm')) return 'video/webm';
-      if (pathname.endsWith('.avi')) return 'video/x-msvideo';
-      if (pathname.endsWith('.mov')) return 'video/quicktime';
-      if (pathname.endsWith('.flv')) return 'video/x-flv';
-      if (pathname.endsWith('.ts') || pathname.endsWith('.m2ts')) return 'video/mp2t';
-      if (pathname.endsWith('.mp3')) return 'audio/mpeg';
-      if (pathname.endsWith('.aac')) return 'audio/aac';
-      if (pathname.endsWith('.flac')) return 'audio/flac';
-      if (pathname.endsWith('.ogg')) return 'audio/ogg';
-      if (pathname.endsWith('.wav')) return 'audio/wav';
-      
-      return 'video/*';
-    } catch {
-      return 'video/*';
-    }
+    return 'video/mp4';
   }
 
   function copyLink(url) {
