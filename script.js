@@ -455,12 +455,11 @@
       const isAndroidTV = isAndroid && /tv|googletv|androidtv|AFT/i.test(navigator.userAgent);
 
       if (isAndroid) {
-        const encodedUrl = encodeURIComponent(url);
-        const intentUri = `intent://${encodedUrl}#Intent;action=android.intent.action.VIEW;package=org.videolan.vlc;type=video/*;end`;
+        const intentUri = `intent:${url}#Intent;type=video/mp4;end`;
         const fallbackUri = `vlc://${url}`;
 
         if (isAndroidTV) {
-          window.location.href = `intent://${encodedUrl}#Intent;package=org.videolan.vlc;end`;
+          window.location.href = `intent:${url}#Intent;package=org.videolan.vlc;end`;
         } else {
           window.location.href = intentUri;
         }
